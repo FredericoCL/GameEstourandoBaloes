@@ -1,5 +1,5 @@
 //Variável que armazena a chamada da função timeOut
-var timerId = null; 
+var timerId = null;
 
 function iniciaJogo() {
 
@@ -45,24 +45,26 @@ function contagem_tempo(segundos){
 
 	segundos = segundos - 1;
 
-	if (segundos == -1) {
-		clearTimeout(timerId); //Para a Execução da função do setTimeout
+	if(segundos == -1){
+		clearTimeout(timerId); //Para a execução da função do settimeout
 		game_over();
 		return false;
 	}
 
 	document.getElementById('cronometro').innerHTML = segundos;
-	timerId  = setTimeout("contagem_tempo("+segundos+")", 1000);
+	timerId = setTimeout("contagem_tempo("+segundos+")", 1000);
 
 }
 
 function game_over(){
+	remove_eventos_baloes();
 	alert('Game Over! Você não conseguiu estourar todos os Balões a Tempo!')
 }
 
 function cria_baloes(qtde_baloes){
 
-	for (var i = 1; i <= qtde_baloes; i++) {
+	for(var i = 1; i <= qtde_baloes; i++){
+
 		var balao = document.createElement("img");
 		balao.src = 'imagens/balao_azul_pequeno.png';
 		balao.style.margin = '12px';
@@ -77,7 +79,9 @@ function cria_baloes(qtde_baloes){
 function estourar(e){
 
 	var id_balao = e.id;
-	document.getElementById(id_balao).src = "imagens/balao_azul_pequeno_estourado.png";
+
+	document.getElementById(id_balao).setAttribute("onclick", "");
+	document.getElementById(id_balao).src = 'imagens/balao_azul_pequeno_estourado.png';
 
 	pontuacao(-1);
 
@@ -86,7 +90,7 @@ function estourar(e){
 function pontuacao(acao){
 
 	var baloes_inteiros = document.getElementById('baloes_inteiros').innerHTML;
-	var baloes_estourados = document.getElementById('baloes_estourados').innerHTML;
+	var baloes_estourados  = document.getElementById('baloes_estourados').innerHTML;
 
 	baloes_inteiros = parseInt(baloes_inteiros);
 	baloes_estourados = parseInt(baloes_estourados);
@@ -97,19 +101,32 @@ function pontuacao(acao){
 	document.getElementById('baloes_inteiros').innerHTML = baloes_inteiros;
 	document.getElementById('baloes_estourados').innerHTML = baloes_estourados;
 
-	situacao_jogo(baloes_inteiros, baloes_estourados);
+	situacao_jogo(baloes_inteiros);
 
 }
 
 function situacao_jogo(baloes_inteiros){
 
 	if (baloes_inteiros == 0) {
-		alert('Parabéns! Você conseguiu estourar todos os Balões a Tempo!');
 		parar_jogo();
+		alert('Parabéns! Você conseguiu estourar todos os Balões a Tempo!');
+		
 	}
 
 }
 
 function parar_jogo(){
 	clearTimeout(timerId);
+}
+
+function remove_eventos_baloes() {
+    var i = 1; //Contador para recuperar balões por id
+    
+    /*Percorre o lementos de acordo com o id e só irá sair do laço quando 
+    não houver correspondência com elemento*/
+    while(document.getElementById('b'+i)) {
+        //retira o evento onclick do elemnto
+        document.getElementById('b'+i).onclick = '';
+        i++; //faz a iteração da variávei i
+    }
 }
