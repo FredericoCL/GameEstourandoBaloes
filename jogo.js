@@ -27,7 +27,7 @@ function iniciaJogo() {
 	document.getElementById('cronometro').innerHTML = tempo_segundos;
 
 	//Quantidade de Balões no Cenário do Jogo
-	var qtde_baloes = 30;
+	var qtde_baloes = 80;
 	cria_baloes(qtde_baloes);
 
 	//Imprimir quantidade de balões inteiros
@@ -97,4 +97,19 @@ function pontuacao(acao){
 	document.getElementById('baloes_inteiros').innerHTML = baloes_inteiros;
 	document.getElementById('baloes_estourados').innerHTML = baloes_estourados;
 
+	situacao_jogo(baloes_inteiros, baloes_estourados);
+
+}
+
+function situacao_jogo(baloes_inteiros){
+
+	if (baloes_inteiros == 0) {
+		alert('Parabéns! Você conseguiu estourar todos os Balões a Tempo!');
+		parar_jogo();
+	}
+
+}
+
+function parar_jogo(){
+	clearTimeout(timerId);
 }
